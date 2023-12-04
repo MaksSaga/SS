@@ -1,0 +1,43 @@
+@import 'assets/fonts/montserrat.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        @apply font-montserrat
+    }
+
+    body {
+        @apply min-h-screen
+    }
+}
+
+/* Swiper */
+:root {
+    --swiper-theme-color: #F33D3D;
+    --swiper-pagination-bullet-inactive-opacity: 0.3;
+    --swiper-navigation-color: #1F2122;
+    --swiper-navigation-size: 24px
+}
+
+.swiper-button-prev,
+.swiper-button-next
+ {
+    background-color: white;
+    opacity: 100%;
+    border-radius: 50%;
+    padding: 20px 22px 20px 18px;
+    transition: opacity .3s ease-out;
+}
+
+.swiper-button-next {
+    padding: 20px 18px 20px 22px;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+    opacity: 86%;
+}
+
