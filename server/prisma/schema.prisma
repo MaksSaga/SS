@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id         Int      @id @default(dbgenerated())
+  username   String
+  password   String
+  assignedAt DateTime @default(now())
+}
+
+model Category {
+  id         Int      @id @default(dbgenerated())
+  title      String
+  subset     Subset[]
+  assignedAt DateTime @default(now())
+}
+
+model Subset {
+  id         Int       @id @default(dbgenerated())
+  title      String
+  product    Product[]
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId Int?
+  assignedAt DateTime  @default(now())
+}
+
+model Product {
+  id           Int            @id @default(dbgenerated())
+  title        String
+  currentCount Int
+  soldCount    Int
+  currentPrice Int
+  oldPrice     Int
+  discount     Int
+  poshta       Boolean
+  pay          Boolean
+  description  String
+  subset       Subset         @relation(fields: [subsetId], references: [id])
+  subsetId     Int
+  order        ProductOrder[]
+  assignedAt   DateTime       @default(now())
+}
+
+model Order {
+  id            Int            @id @default(dbgenerated())
+  product       ProductOrder[]
+  count         Int
+  priceApiece   Int
+  priceTotal    Int
+  username      String
+  surname       String?
+  phoneNumber   Int
+  address       String
+  comment       String?
+  poshta        Poshta?        @relation(fields: [poshtaId], references: [id])
+  poshtaId      Int?
+  pay           Pay?           @relation(fields: [payId], references: [id])
+  payId         Int?
+  OrderStatus   OrderStatus?   @relation(fields: [orderStatusId], references: [id])
+  orderStatusId Int?
+  assignedAt    DateTime       @default(now())
+}
+
+model ProductOrder {
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  Int
+  order      Order    @relation(fields: [orderId], references: [id])
+  orderId    Int
+  assignedAt DateTime @default(now())
+
+  @@id([productId, orderId])
+}
+
+model OrderStatus {
+  id    Int     @id @default(dbgenerated())
+  title String
+  order Order[]
+}
+
+model Poshta {
+  id    Int     @id @default(dbgenerated())
+  title String
+  order Order[]
+}
+
+model Pay {
+  id    Int     @id @default(dbgenerated())
+  title String
+  order Order[]
+}
