@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Pay" ALTER COLUMN "id" DROP DEFAULT;
+DROP SEQUENCE "pay_id_seq";
